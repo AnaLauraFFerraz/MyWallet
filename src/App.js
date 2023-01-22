@@ -1,7 +1,5 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-//import { useState, useEffect } from 'react';
 import React, { useState } from "react";
-// import styled from "styled-components";
 import { UserContext } from "./context/UserContext"
 
 import SignIn from "./pages/SignIn"
