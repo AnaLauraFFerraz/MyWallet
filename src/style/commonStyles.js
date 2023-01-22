@@ -12,7 +12,7 @@ export const Container = styled.div`
     background: #8C11BE;
 `
 
-export const Title = styled.h1`
+export const Logo = styled.h1`
     margin-bottom: 24px;
     font-family: "Saira Stencil One";
     font-weight: 400;
