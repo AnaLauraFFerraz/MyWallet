@@ -1,7 +1,8 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import { useState } from 'react';
-import React from "react";
-import styled from "styled-components";
+//import { useState, useEffect } from 'react';
+import React, { useState } from "react";
+// import styled from "styled-components";
+import { UserContext } from "./context/UserContext"
 
 import SignIn from "./pages/SignIn"
 import SignUp from "./pages/SignUp"
@@ -10,10 +11,12 @@ import Income from "./pages/Income"
 import Expense from "./pages/Expense"
 
 function App() {
+
+    const [user, setUser] = useState({})
+
     return (
         <BrowserRouter>
-            <Container>
-                <Header />
+            <UserContext.Provider value={{ user, setUser }}>
                 <Routes>
                     <Route path="/" element={<SignIn />} />
                     <Route path="/cadastro" element={<SignUp />} />
@@ -21,13 +24,9 @@ function App() {
                     <Route path="/nova-entrada" element={<Income />} />
                     <Route path="/nova-saida" element={<Expense />} />
                 </Routes>
-            </Container>
+            </UserContext.Provider>
         </BrowserRouter>
     )
 }
 
 export default App;
-
-const Container = styled.div`
-    display: flex;
-`
