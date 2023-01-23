@@ -1,6 +1,6 @@
 import React, { useState } from "react"
 import { useNavigate } from "react-router-dom"
-// import axios from "axios"
+import axios from "axios"
 
 import styled from "styled-components"
 import { Input } from "../components/Input"
@@ -13,12 +13,24 @@ export default function Income() {
 
     const navigate = useNavigate()
 
-    // const BASE_URL = "http://localhost:5000"
+    const BASE_URL = "http://localhost:5000"
 
     function handleSubmit(e) {
         e.preventDefault();
-        // const body = { value, description }
-        navigate("/home")
+
+        const body = {
+            value: value,
+            description: description
+        }
+
+        axios.post(`${BASE_URL}/nova-entrada`, body)
+            .then((res) => {
+                console.log(res.data);
+                navigate("/home");
+            })
+            .catch((err) => {
+                console.log(err.response.data);
+            })
     }
 
     return (
