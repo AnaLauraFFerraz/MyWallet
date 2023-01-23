@@ -22,6 +22,15 @@ export default function SignIn() {
 
         const body = { email, password }
 
+        axios.post(BASE_URL, body)
+            .then((res) => {
+                console.log(res.data);
+                setUser(res.data);
+                navigate("/home");
+            })
+            .catch((err) => {
+                console.log(err.response.data);
+            })
     }
 
     return (
