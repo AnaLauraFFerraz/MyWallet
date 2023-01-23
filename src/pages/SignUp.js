@@ -25,8 +25,8 @@ export default function SignUp() {
 
         axios.post(`${BASE_URL}/cadastro`, body)
             .then((res) => {
-                console.log(res.data);
-                navigate("/");
+                console.log(res.data)
+                navigate("/")
             })
             .catch((err) => {
                 console.log(err.response.data);
