@@ -1,18 +1,48 @@
+import React, { useState } from "react"
+import { useNavigate } from "react-router-dom"
+// import axios from "axios"
+
 import styled from "styled-components"
-//import axios from "axios"
 import { Input } from "../components/Input"
 import { Button } from "../components/Button"
 import { Form } from "../style/commonStyles"
 
 export default function Income() {
+    const [value, setValue] = useState("")
+    const [description, setDescription] = useState("")
+
+    const navigate = useNavigate()
+
+    // const BASE_URL = "http://localhost:5000"
+
+    function handleSubmit(e) {
+        e.preventDefault();
+        // const body = { value, description }
+        navigate("/home")
+    }
+
     return (
         <Container>
             <Header>
                 <h1>Nova entrada</h1>
             </Header>
-            <Form>
-                <Input name="email" type="email" placeholder="Valor" required />
-                <Input name="texto" type="text" placeholder="Descrição" required />
+            <Form onSubmit={handleSubmit}>
+                <Input
+                    name="value"
+                    type="currency"
+                    placeholder="Valor"
+                    value={value}
+                    onChange={e => setDescription(e.target.value)}
+                    required
+                />
+                <Input
+                    name="description"
+                    type="text"
+                    placeholder="Descrição"
+                    value={description}
+                    onChange={e => setValue(e.target.value)}
+                    required
+                />
                 <Button type="submit" >Salvar Entrada</Button>
             </Form>
         </Container>
