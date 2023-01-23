@@ -22,6 +22,15 @@ export default function SignUp() {
             password: password,
             confirmPassword: confirmPassword
         }
+
+        axios.post(`${BASE_URL}/cadastro`, body)
+            .then((res) => {
+                console.log(res.data);
+                navigate("/");
+            })
+            .catch((err) => {
+                console.log(err.response.data);
+            })
     }
 
     return (
