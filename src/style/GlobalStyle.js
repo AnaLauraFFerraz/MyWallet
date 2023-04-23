@@ -1,49 +1,58 @@
 import { createGlobalStyle } from "styled-components";
 
-export const GlobalStyle = createGlobalStyle`
-html, body, div, span, applet, object, iframe,
-h1, h2, h3, h4, h5, h6, p, blockquote, pre,
-a, abbr, acronym, address, big, cite, code,
-del, dfn, em, img, ins, kbd, q, s, samp,
-small, strike, strong, sub, sup, tt, var,
-b, u, i, center,
-dl, dt, dd, ol, ul, li,
-fieldset, form, label, legend,
-table, caption, tbody, tfoot, thead, tr, th, td,
-article, aside, canvas, details, embed, 
-figure, figcaption, footer, header, hgroup, 
-menu, nav, output, ruby, section, summary,
-time, mark, audio, video {
-	margin: 0;
-	padding: 0;
-	border: 0;
-	font-size: 100%;
-	font: inherit;
-	vertical-align: baseline;
-}
-/* HTML5 display-role reset for older browsers */
-article, aside, details, figcaption, figure, 
-footer, header, hgroup, menu, nav, section {
-	display: block;
-}
-body {
-	line-height: 1;
-	font-family: 'Raleway';
-	background-color: '#8C11BE';
-}
-ol, ul {
-	list-style: none;
-}
-blockquote, q {
-	quotes: none;
-}
-blockquote:before, blockquote:after,
-q:before, q:after {
-	content: '';
-	content: none;
-}
-table {
-	border-collapse: collapse;
-	border-spacing: 0;
-}
+const GlobalStyle = createGlobalStyle`
+    * {
+        font-family: 'Raleway';
+        font-style: normal;
+        font-weight: 400;
+    }
+    button {
+        outline: none;
+        border: none;
+        border-radius: 5px;
+        background-color: #a328d6;
+        font-size: 20px;
+        font-weight: 600;
+        color: #fff;
+        cursor: pointer;
+        width: 100%;
+        padding: 12px;
+    }
+    h1 {
+        font-weight: 700;
+        font-size: 26px;
+        color: white;
+    }
+    input {
+        font-size: 20px;
+        width: calc(100% - 30px);
+        border-radius: 5px;
+        outline: none;
+        border: 1px solid #ccc;
+        padding: 15px;
+        margin: 1px;
+        :focus {
+            border: 2px solid #ffb6b6;
+            margin: 0px;
+        }
+    }
+    form {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        gap: 15px;
+        width: 100%;
+        border-radius: 5px;
+    }
+    a {
+        font-weight: 700;
+        font-size: 15px;
+        line-height: 18px;
+        color: white;
+        text-decoration: none;
+        padding-top: 30px;
+    }
 `
+
+export default GlobalStyle
