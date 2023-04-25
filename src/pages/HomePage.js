@@ -47,8 +47,31 @@ export default function HomePage() {
         <NoTransactions>Não há registros de<br />entrada ou saída</NoTransactions>
       )
     }
-    let balance = 0
-    let balanceType = ""
+
+    function calcBalance() {
+      let balance = 0
+      transactions.map((t, index) => {
+          const { value } = t
+
+          balance += Number(value)
+          return balance
+        })
+        return balance
+    }
+    const balance = calcBalance()
+
+    function setBalanceType(balance) {
+      let balanceType = ""
+
+      if (balance > 0) {
+        balanceType = "income";
+      } else if (balance < 0) {
+        balanceType = "expense";
+      }
+      return balanceType;
+    }
+
+    const balanceType = setBalanceType(balance)
 
     function compareDates(a, b) {
       const dateA = new Date(a.date);
@@ -73,16 +96,10 @@ export default function HomePage() {
                 const { value, description, date } = t
 
                 let entryType = ""
-                let balanceType = ""
 
                 value > 0 ?
                   entryType = "income"
                   : entryType = "expense"
-
-                balance += Number(value)
-                balance > 0 ?
-                  balanceType = "income"
-                  : balanceType = "expense"
 
                 return (
 
@@ -99,8 +116,8 @@ export default function HomePage() {
         </TransactionsList>
         <article>
           <strong>Saldo</strong>
-          <Value color={balanceType}>
-            {balance.toFixed(2)}
+          <Value className={balanceType} color={balanceType}>
+            {balance}
           </Value>
         </article>
       </TransactionsContainer>
@@ -217,6 +234,12 @@ const Value = styled.div`
   font-size: 16px;
   text-align: right;
   color: ${(props) => (props.color === "income" ? "green" : "red")};
+  /* .income {
+    color: green;
+  }
+  .expense {
+    color: red;
+  } */
 `
 const ListItemContainer = styled.li`
   display: flex;
