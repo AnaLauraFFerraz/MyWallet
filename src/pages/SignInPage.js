@@ -24,6 +24,7 @@ export default function SignInPage() {
     axios.post(BASE_URL, body)
       .then((res) => {
         setUser(res.data);
+        console.log(res.data)
         navigate("/home");
       })
       .catch((err) => {

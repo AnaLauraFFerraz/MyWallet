@@ -14,12 +14,12 @@ export default function App() {
     const token = localStorage.getItem("token");
     return token ? { token } : {};
   });
-
+  const [name, setName] = useState("")
 
   return (
     <PagesContainer>
       <BrowserRouter>
-        <UserContext.Provider value={{ user, setUser }}>
+        <UserContext.Provider value={{ user, setUser, name, setName }}>
           <Routes>
             <Route path="/" element={<SignInPage />} />
             <Route path="/cadastro" element={<SignUpPage />} />
@@ -36,5 +36,6 @@ const PagesContainer = styled.main`
   background-color: #8c11be;
   width: calc(100vw - 50px);
   max-height: 100vh;
+  min-height:580px;
   padding: 25px;
 `

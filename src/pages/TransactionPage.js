@@ -25,6 +25,13 @@ export default function TransactionsPage() {
     return formattedValue;
   }
 
+  function validateInput(e) {
+    const regex = /^-?\d*([.,]\d{0,2})?$/;
+    if (regex.test(e.target.value)) {
+      setValue(e.target.value);
+    }
+  }
+  
   function handleSubmit(e) {
     e.preventDefault();
 
@@ -62,11 +69,9 @@ export default function TransactionsPage() {
         <input
           name="value"
           placeholder="Valor"
-          type="number"
-          pattern="^-?[0-9]\d*(\.\d+)?$"
-          step="0.01"
+          type="text"
           value={value}
-          onChange={e => setValue(e.target.value)}
+          onChange={validateInput}
           required
         />
         <input

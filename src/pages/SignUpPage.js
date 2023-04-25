@@ -1,15 +1,17 @@
-import React, { useState } from "react"
+import React, { useState, useContext } from "react"
 import { Link, useNavigate } from "react-router-dom"
 import axios from "axios"
 import styled from "styled-components"
 
 import MyWalletLogo from "../components/MyWalletLogo"
+import { UserContext } from "../context/UserContext"
 
 export default function SignUpPage() {
 
   const navigate = useNavigate()
+  const { setUser } = useContext(UserContext)
+  const { name, setName } = useContext(UserContext)
 
-  const [name, setName] = useState("")
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
   const [confirmPassword, setConfirmPassword] = useState("")
@@ -20,27 +22,29 @@ export default function SignUpPage() {
     e.preventDefault();
 
     if (password !== confirmPassword) {
-      alert("As senhas não coincidem.");
+      alert("As senhas não coincidem.")
       return
     }
     if (name === "") {
       alert("Insira o nome do usuário.")
       return
     }
-    
+
     const body = {
       name: name,
       email: email,
       password: password,
     }
-    
+
     axios.post(`${BASE_URL}/cadastro`, body)
       .then((res) => {
-        navigate("/")
+        setUser({ token: res.data.token });
+        setName(name);
+        navigate("/");
       })
       .catch((err) => {
         const statusCode = err.response.status;
-  
+
         if (statusCode === 422) {
           alert("A senha deve ter no mínimo 3 caracteres.");
         } else if (statusCode === 409) {
@@ -75,7 +79,6 @@ export default function SignUpPage() {
           placeholder="Senha"
           value={password}
           onChange={e => setPassword(e.target.value)}
-          // autoComplete="new-password"
         />
         <input
           name="confirmPassword"
@@ -83,7 +86,6 @@ export default function SignUpPage() {
           placeholder="Confirme a senha"
           value={confirmPassword}
           onChange={e => setConfirmPassword(e.target.value)}
-          // autoComplete="new-password"
         />
         <button type="submit" >Cadastrar</button>
       </form>

@@ -8,7 +8,8 @@ import { UserContext } from "../context/UserContext"
 
 export default function HomePage() {
 
-  const { user, setUser } = useContext(UserContext)
+  const { user, setUser, name } = useContext(UserContext)
+  console.log(name)
   const token = user
   const [transactions, setTransactions] = useState([])
   const navigate = useNavigate()
@@ -39,7 +40,7 @@ export default function HomePage() {
     localStorage.removeItem("token");
     navigate("/");
   }
-  
+
   function handleTransactions() {
     if (transactions.length === 0) {
       return (
@@ -49,41 +50,56 @@ export default function HomePage() {
     let balance = 0
     let balanceType = ""
 
+    function compareDates(a, b) {
+      const dateA = new Date(a.date);
+      const dateB = new Date(b.date);
+
+      if (dateA > dateB) {
+        return -1;
+      } else if (dateA < dateB) {
+        return 1;
+      } else {
+        return 0;
+      }
+    }
+
     return (
       <TransactionsContainer>
-        <ul>
-          {transactions.map((t, index) => {
-            const { value, description, date } = t
+        <TransactionsList>
+          <ul>
+            {transactions
+              .sort(compareDates)
+              .map((t, index) => {
+                const { value, description, date } = t
 
-            let entryType = ""
-            let balanceType = ""
+                let entryType = ""
+                let balanceType = ""
 
-            value > 0 ?
-              entryType = "income"
-              : entryType = "expense"
+                value > 0 ?
+                  entryType = "income"
+                  : entryType = "expense"
 
-            balance += Number(value)
-            balance > 0 ?
-              balanceType = "income"
-              : balanceType = "expense"
+                balance += Number(value)
+                balance > 0 ?
+                  balanceType = "income"
+                  : balanceType = "expense"
 
-            return (
+                return (
 
-              <ListItemContainer key={index}>
-                <span color={entryType}> {value} </span>
-                <div>
-                  <span>{date}</span>
-                  <strong> {description} </strong>
-                </div>
-                <Value color={entryType}> {value} </Value>
-              </ListItemContainer>
-            )
-          })}
-        </ul>
-
+                  <ListItemContainer key={index}>
+                    <div>
+                      <span>{date}</span>
+                      <strong> {description} </strong>
+                    </div>
+                    <Value color={entryType}> {value} </Value>
+                  </ListItemContainer>
+                )
+              })}
+          </ul>
+        </TransactionsList>
         <article>
           <strong>Saldo</strong>
-          <Value color={balanceType === "income" ? "income" : "expense"}>
+          <Value color={balanceType}>
             {balance.toFixed(2)}
           </Value>
         </article>
@@ -94,7 +110,7 @@ export default function HomePage() {
   return (
     <HomeContainer>
       <Header>
-        <h1>Olá, Fulano</h1>
+        <h1>Olá, {name}</h1>
         <BiExit onClick={handleLogout} />
       </Header>
 
@@ -119,6 +135,7 @@ const HomeContainer = styled.div`
   display: flex;
   flex-direction: column;
   height: calc(100vh - 50px);
+  min-height: 500px;
 `
 const Header = styled.header`
   display: flex;
@@ -136,6 +153,7 @@ const TransactionsContainer = styled.article`
   justify-content: space-between;
   border-radius: 5px;
   padding: 16px;
+  padding-bottom: 1rem;
   background-color: #FFFFFF;
   color: #000;
   article {
@@ -145,6 +163,16 @@ const TransactionsContainer = styled.article`
       font-weight: 700;
       text-transform: uppercase;
     }
+  }
+`
+const TransactionsList = styled.div`
+  flex-grow: 1;
+  overflow-y: auto;
+  margin-bottom: 1rem;
+
+  ul {
+    padding: 0;
+    list-style-type: none;
   }
 `
 const NoTransactions = styled.div`
