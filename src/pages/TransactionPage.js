@@ -16,7 +16,7 @@ export default function TransactionsPage() {
 
   const navigate = useNavigate()
 
-  const BASE_URL = "http://localhost:5000"
+  const BASE_URL = "http://mywallet-owev.onrender.com"
 
   function handleSubmit(e) {
     e.preventDefault();
