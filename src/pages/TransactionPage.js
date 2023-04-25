@@ -9,7 +9,6 @@ export default function TransactionsPage() {
   const token = user;
 
   const { tipo: id } = useParams();
-  console.log("id: ", id)
 
   const [value, setValue] = useState("")
   const [description, setDescription] = useState("")
@@ -18,11 +17,21 @@ export default function TransactionsPage() {
 
   const BASE_URL = "https://mywallet-owev.onrender.com"
 
+  function formatValue(value) {
+    let formattedValue = parseFloat(value.toString().replace(',', '.')).toFixed(2);
+
+    formattedValue = Math.abs(formattedValue);
+
+    return formattedValue;
+  }
+
   function handleSubmit(e) {
     e.preventDefault();
 
+    const formattedValue = formatValue(value);
+
     const body = {
-      value: value,
+      value: formattedValue,
       description: description
     }
 
@@ -37,7 +46,11 @@ export default function TransactionsPage() {
         navigate("/home");
       })
       .catch((err) => {
-        console.log(err.response.data);
+        if (err.response && err.response.status === 422) {
+          alert("Dados inválidos. Por favor, verifique os campos e tente novamente.");
+        } else {
+          console.log(err.response.data);
+        }
         navigate("/")
       })
   }
@@ -49,7 +62,9 @@ export default function TransactionsPage() {
         <input
           name="value"
           placeholder="Valor"
-          type="text"
+          type="number"
+          pattern="^-?[0-9]\d*(\.\d+)?$"
+          step="0.01"
           value={value}
           onChange={e => setValue(e.target.value)}
           required
