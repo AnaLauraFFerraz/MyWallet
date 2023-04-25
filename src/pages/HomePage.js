@@ -9,7 +9,6 @@ import { UserContext } from "../context/UserContext"
 export default function HomePage() {
 
   const { user, setUser, name, setName } = useContext(UserContext)
-  console.log(name)
   const token = user
   const [transactions, setTransactions] = useState([])
   const navigate = useNavigate()
