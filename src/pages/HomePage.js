@@ -54,7 +54,7 @@ export default function HomePage() {
           const { value } = t
 
           balance += Number(value)
-          return balance
+          return balance.toFixed(2)
         })
         return balance
     }
