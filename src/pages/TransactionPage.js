@@ -34,7 +34,6 @@ export default function TransactionsPage() {
 
     axios.post(`${BASE_URL}/nova-transacao/${id}`, body, config)
       .then((res) => {
-        console.log(res.data);
         navigate("/home");
       })
       .catch((err) => {

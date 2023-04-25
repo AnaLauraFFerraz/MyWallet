@@ -26,7 +26,6 @@ export default function HomePage() {
       axios.get(`${BASE_URL}/home`, config)
         .then((res) => {
           setTransactions(res.data)
-          console.log(res.data)
         })
         .catch((err) => {
           console.log("ERR ", err.response.data);
@@ -86,7 +85,7 @@ export default function HomePage() {
         <article>
           <strong>Saldo</strong>
           <Value color={balanceType === "income" ? "income" : "expense"}>
-            {-1 * balance.toFixed(2)}
+            {balance.toFixed(2)}
           </Value>
         </article>
       </TransactionsContainer>
