@@ -14,7 +14,7 @@ export default function SignUpPage() {
   const [password, setPassword] = useState("")
   const [confirmPassword, setConfirmPassword] = useState("")
 
-  const BASE_URL = "http://mywallet-owev.onrender.com"
+  const BASE_URL = "https://mywallet-owev.onrender.com"
 
   function signup(e) {
     e.preventDefault();
