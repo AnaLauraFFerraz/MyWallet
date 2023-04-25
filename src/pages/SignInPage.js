@@ -23,9 +23,9 @@ export default function SignInPage() {
 
     axios.post(`${REACT_APP_API_URL}/`, body)
       .then((res) => {
-        setUser(res.data);
+        setUser(res.data.token);
         localStorage.setItem("token", res.data.token);
-        setName(name);
+        setName(res.data.name);
         navigate("/home");
       })
       .catch((err) => {
