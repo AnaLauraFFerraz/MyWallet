@@ -15,6 +15,9 @@ export default function App() {
     return token ? { token } : {};
   });
   const [name, setName] = useState("")
+  // const [token, setToken] = useState("");
+  // const [name, setName] = useState("");
+
 
   return (
     <PagesContainer>

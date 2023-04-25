@@ -15,7 +15,7 @@ export default function TransactionsPage() {
 
   const navigate = useNavigate()
 
-  const BASE_URL = "https://mywallet-owev.onrender.com"
+  const REACT_APP_API_URL = process.env.REACT_APP_API_URL
 
   function formatValue(value) {
     let formattedValue = parseFloat(value.toString().replace(',', '.')).toFixed(2);
@@ -31,7 +31,7 @@ export default function TransactionsPage() {
       setValue(e.target.value);
     }
   }
-  
+
   function handleSubmit(e) {
     e.preventDefault();
 
@@ -48,7 +48,7 @@ export default function TransactionsPage() {
       }
     }
 
-    axios.post(`${BASE_URL}/nova-transacao/${id}`, body, config)
+    axios.post(`${REACT_APP_API_URL}/nova-transacao/${id}`, body, config)
       .then((res) => {
         navigate("/home");
       })
@@ -67,6 +67,7 @@ export default function TransactionsPage() {
       <h1>Nova {id}</h1>
       <form onSubmit={handleSubmit}>
         <input
+          data-test="registry-amount-input"
           name="value"
           placeholder="Valor"
           type="text"
@@ -75,6 +76,7 @@ export default function TransactionsPage() {
           required
         />
         <input
+          data-test="registry-name-input"
           name="description"
           placeholder="Descrição"
           type="text"
@@ -82,7 +84,7 @@ export default function TransactionsPage() {
           onChange={e => setDescription(e.target.value)}
           required
         />
-        <button type="submit">Salvar {id}</button>
+        <button data-test="registry-save" type="submit">Salvar {id}</button>
       </form>
     </TransactionsContainer>
   )

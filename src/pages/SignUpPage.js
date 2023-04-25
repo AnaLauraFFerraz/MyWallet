@@ -16,7 +16,7 @@ export default function SignUpPage() {
   const [password, setPassword] = useState("")
   const [confirmPassword, setConfirmPassword] = useState("")
 
-  const BASE_URL = "https://mywallet-owev.onrender.com"
+  const REACT_APP_API_URL = process.env.REACT_APP_API_URL
 
   function signup(e) {
     e.preventDefault();
@@ -36,9 +36,10 @@ export default function SignUpPage() {
       password: password,
     }
 
-    axios.post(`${BASE_URL}/cadastro`, body)
+    axios.post(`${REACT_APP_API_URL}/cadastro`, body)
       .then((res) => {
         setUser({ token: res.data.token });
+        localStorage.setItem("token", res.data.token);
         setName(name);
         navigate("/");
       })
@@ -60,6 +61,7 @@ export default function SignUpPage() {
       <form onSubmit={signup}>
         <MyWalletLogo />
         <input
+          data-test="name"
           name="name"
           type="text"
           placeholder="Nome"
@@ -67,6 +69,7 @@ export default function SignUpPage() {
           onChange={e => setName(e.target.value)}
         />
         <input
+          data-test="email"
           name="email"
           type="email"
           placeholder="E-mail"
@@ -74,6 +77,7 @@ export default function SignUpPage() {
           onChange={e => setEmail(e.target.value)}
         />
         <input
+          data-test="password"
           name="password"
           type="password"
           placeholder="Senha"
@@ -81,13 +85,14 @@ export default function SignUpPage() {
           onChange={e => setPassword(e.target.value)}
         />
         <input
+          data-test="conf-password"
           name="confirmPassword"
           type="password"
           placeholder="Confirme a senha"
           value={confirmPassword}
           onChange={e => setConfirmPassword(e.target.value)}
         />
-        <button type="submit" >Cadastrar</button>
+        <button data-test="sign-up-submit" type="submit" >Cadastrar</button>
       </form>
 
       <Link to="/">

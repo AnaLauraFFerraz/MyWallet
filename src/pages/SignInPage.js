@@ -8,28 +8,29 @@ import { UserContext } from "../context/UserContext"
 
 export default function SignInPage() {
 
-  const { setUser } = useContext(UserContext)
+  const { setUser, name, setName } = useContext(UserContext)
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
 
   const navigate = useNavigate()
 
-  const BASE_URL = "https://mywallet-owev.onrender.com/"
+  const REACT_APP_API_URL = process.env.REACT_APP_API_URL
 
   function handleSubmit(e) {
     e.preventDefault();
 
     const body = { email, password }
 
-    axios.post(BASE_URL, body)
+    axios.post(`${REACT_APP_API_URL}/`, body)
       .then((res) => {
         setUser(res.data);
-        console.log(res.data)
+        localStorage.setItem("token", res.data.token);
+        setName(name);
         navigate("/home");
       })
       .catch((err) => {
         const statusCode = err.response.status;
-  
+
         if (statusCode === 422) {
           alert("A senha deve ter no mínimo 3 caracteres.");
         } else if (statusCode === 404) {
@@ -46,7 +47,8 @@ export default function SignInPage() {
     <SingInContainer>
       <form onSubmit={handleSubmit}>
         <MyWalletLogo />
-        <input 
+        <input
+          data-test="email"
           name="email"
           type="email"
           placeholder="E-mail"
@@ -55,6 +57,7 @@ export default function SignInPage() {
           required
         />
         <input
+          data-test="password"
           name="password"
           type="password"
           placeholder="Senha"
@@ -63,7 +66,7 @@ export default function SignInPage() {
           autoComplete="new-password"
           required
         />
-        <button type="submit">Entrar</button>
+        <button data-test="sign-in-submit" type="submit">Entrar</button>
       </form>
 
       <Link to="/cadastro">

@@ -8,13 +8,13 @@ import { UserContext } from "../context/UserContext"
 
 export default function HomePage() {
 
-  const { user, setUser, name } = useContext(UserContext)
+  const { user, setUser, name, setName } = useContext(UserContext)
   console.log(name)
   const token = user
   const [transactions, setTransactions] = useState([])
   const navigate = useNavigate()
 
-  const BASE_URL = "https://mywallet-owev.onrender.com"
+  const REACT_APP_API_URL = process.env.REACT_APP_API_URL
 
   useEffect(() => {
     async function listTransactions() {
@@ -23,7 +23,7 @@ export default function HomePage() {
           Authorization: `Bearer ${token}`
         }
       }
-      axios.get(`${BASE_URL}/home`, config)
+      axios.get(`${REACT_APP_API_URL}/home`, config)
         .then((res) => {
           setTransactions(res.data)
         })
@@ -33,11 +33,12 @@ export default function HomePage() {
         })
     }
     listTransactions()
-  }, [token, navigate])
+  }, [token, navigate, REACT_APP_API_URL])
 
   function handleLogout() {
     setUser({});
     localStorage.removeItem("token");
+    setName("");
     navigate("/");
   }
 
@@ -106,9 +107,9 @@ export default function HomePage() {
                   <ListItemContainer key={index}>
                     <div>
                       <span>{date}</span>
-                      <strong> {description} </strong>
+                      <strong data-test="registry-name"> {description} </strong>
                     </div>
-                    <Value color={entryType}> {value} </Value>
+                    <Value data-test="registry-amount" color={entryType}> {value} </Value>
                   </ListItemContainer>
                 )
               })}
@@ -116,7 +117,7 @@ export default function HomePage() {
         </TransactionsList>
         <article>
           <strong>Saldo</strong>
-          <Value className={balanceType} color={balanceType}>
+          <Value data-test="total-amount" className={balanceType} color={balanceType}>
             {balance}
           </Value>
         </article>
@@ -127,18 +128,18 @@ export default function HomePage() {
   return (
     <HomeContainer>
       <Header>
-        <h1>Olá, {name}</h1>
-        <BiExit onClick={handleLogout} />
+        <h1 data-test="user-name">Olá, {name}</h1>
+        <BiExit data-test="logout" onClick={handleLogout} />
       </Header>
 
       {handleTransactions()}
 
       <ButtonsContainer>
-        <EntryButton to={`/nova-transacao/entrada`}>
+        <EntryButton data-test="new-income" to={`/nova-transacao/entrada`}>
           <AiOutlinePlusCircle />
           <p>Nova <br /> entrada</p>
         </EntryButton>
-        <EntryButton to={`/nova-transacao/saida`}>
+        <EntryButton data-test="new-expense" to={`/nova-transacao/saida`}>
           <AiOutlineMinusCircle />
           <p>Nova <br />saída</p>
         </EntryButton>
