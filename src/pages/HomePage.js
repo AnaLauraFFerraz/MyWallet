@@ -10,7 +10,6 @@ export default function HomePage() {
 
   const { user, setUser } = useContext(UserContext)
   const token = user
-  console.log(token)
   const [transactions, setTransactions] = useState([])
   const navigate = useNavigate()
 
@@ -33,7 +32,7 @@ export default function HomePage() {
         })
     }
     listTransactions()
-  }, [token])
+  }, [token, navigate])
 
   function handleLogout() {
     setUser({});

@@ -21,7 +21,11 @@ export default function SignUpPage() {
 
     if (password !== confirmPassword) {
       alert("As senhas não coincidem.");
-      return;
+      return
+    }
+    if (name === "") {
+      alert("Insira o nome do usuário.")
+      return
     }
     
     const body = {
@@ -35,7 +39,15 @@ export default function SignUpPage() {
         navigate("/")
       })
       .catch((err) => {
-        console.log(err.response.data);
+        const statusCode = err.response.status;
+  
+        if (statusCode === 422) {
+          alert("A senha deve ter no mínimo 3 caracteres.");
+        } else if (statusCode === 409) {
+          alert("Esse usuário já está cadastrado.");
+        } else {
+          console.log(err.response.data);
+        }
       })
   }
 

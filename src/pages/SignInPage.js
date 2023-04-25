@@ -27,7 +27,17 @@ export default function SignInPage() {
         navigate("/home");
       })
       .catch((err) => {
-        console.log(err.response.data);
+        const statusCode = err.response.status;
+  
+        if (statusCode === 422) {
+          alert("A senha deve ter no mínimo 3 caracteres.");
+        } else if (statusCode === 404) {
+          alert("Esse usuário não está cadastrado.");
+        } else if (statusCode === 401) {
+          alert("Usuário ou senha incorretos.");
+        } else {
+          console.log(err.response.data);
+        }
       })
   }
 
